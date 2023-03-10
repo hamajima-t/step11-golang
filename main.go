@@ -49,3 +49,6 @@ func main() {
 	// HTTPサーバを起動する
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
+=======
+package main
+>>>>>>> origin/main
