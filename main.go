@@ -9,8 +9,6 @@ import (
 	"net/http"
 
 	_ "github.com/tenntenn/sqlite"
-
-	_ "github.com/bmizerany/pat"
 )
 
 func main() {
@@ -40,6 +38,8 @@ func main() {
 	http.HandleFunc("/save", hs.SaveHandler)
 	http.HandleFunc("/summary", hs.SummaryHandler)
 
+	// 静的ファイル（JavaScript/CSS）を読み込むために
+	// ファイルサーバーを起動する
 	fileServer := http.FileServer(http.Dir("./static"))
 	http.Handle("/static/", http.StripPrefix("/static", fileServer))
 
@@ -49,6 +49,3 @@ func main() {
 	// HTTPサーバを起動する
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
-=======
-package main
->>>>>>> origin/main
