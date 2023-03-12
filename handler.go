@@ -70,6 +70,7 @@ var listTmpl = template.Must(template.New("list").Parse(`<!DOCTYPE html>
 	<head>
 		<meta charset="utf-8"/>
 		<title>家計簿</title>
+		<link rel="stylesheet" href="./static/style.css">
 	</head>
 	<body>
 		<h1>家計簿</h1>
