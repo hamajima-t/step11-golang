@@ -2,8 +2,10 @@
   'use strict';
 
   document.addEventListener('DOMContentLoaded', function() {
+    
+    // WebSocketオブジェクトの作成 
     let socket = new WebSocket("ws://127.0.0.1:8080/ws");
-
+    // 接続を確率
     socket.onopen = () => {
       console.log("Successfully connected!");
     };
@@ -19,5 +21,5 @@
       $(this).parents('tr').fadeOut(800);
     });
   });
-  
+
 })();
