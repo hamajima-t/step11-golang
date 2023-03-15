@@ -43,7 +43,7 @@ func main() {
 	fileServer := http.FileServer(http.Dir("./static"))
 	http.Handle("/static/", http.StripPrefix("/static", fileServer))
 
-	go ListenToWsChannel(hs)
+	go ListenToWsChannel()
 
 	fmt.Println("http://localhost:8080 で起動中...")
 	// HTTPサーバを起動する
