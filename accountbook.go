@@ -47,7 +47,7 @@ func (ab *AccountBook) AddItem(item *Item) error {
 	return nil
 }
 
-// 削除
+// データベースからItemを削除する
 func (ab *AccountBook) DeleteItem(id int) error {
 	const sqlStr = `DELETE FROM items WHERE id = ?`
 	_, err := ab.db.Exec(sqlStr, id)
