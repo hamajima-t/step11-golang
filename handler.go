@@ -40,7 +40,7 @@ func (hs *Handlers) WsEndpoint(w http.ResponseWriter, r *http.Request) {
 	go ListenForWs(ws)
 }
 
-func ListenToWsChannel(hs *Handlers) {
+func (hs *Handlers) ListenToWsChannel() {
 	for {
 		e := <-wsChan
 
