@@ -20,12 +20,13 @@ func NewHandlers(ab *AccountBook) *Handlers {
 }
 
 // ペイロードチャネルを作成
-var wsChan = make(chan *websocket.Conn)
+var wsChan = make(chan *WsPayload)
 
 // wsコネクションの基本設定
 var upgradeConnection = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
+	CheckOrigin:     func(r *http.Request) bool { return true },
 }
 
 // WebSocketsのエンドポイント
@@ -52,7 +53,7 @@ func (hs *Handlers) ListenToWsChannel() {
 }
 
 func ListenForWs(conn *websocket.Conn) {
-	var payload WsPayload
+	var payload *WsPayload
 
 	for {
 		err := conn.ReadJSON(&payload)
@@ -100,7 +101,7 @@ var listTmpl = template.Must(template.New("list").Parse(`<!DOCTYPE html>
 		{{- end}}
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-		<script src="./static/script.js"></script>
+		<script src="./static/main.js"></script>
 	</body>
 </html>
 `))
