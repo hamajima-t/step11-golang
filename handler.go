@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -20,7 +21,7 @@ func NewHandlers(ab *AccountBook) *Handlers {
 }
 
 // ペイロードチャネルを作成
-var wsChan = make(chan *WsPayload)
+var wsChan = make(chan WsPayload)
 
 // wsコネクションの基本設定
 var upgradeConnection = websocket.Upgrader{
@@ -38,7 +39,9 @@ func (hs *Handlers) WsEndpoint(w http.ResponseWriter, r *http.Request) {
 	}
 	log.Println("OK Client Connecting")
 
-	go ListenForWs(ws)
+	conn := WebSocketConnection{Conn: ws}
+
+	go ListenForWs(&conn) // goroutineで呼び出し
 }
 
 func (hs *Handlers) ListenToWsChannel() {
@@ -52,8 +55,14 @@ func (hs *Handlers) ListenToWsChannel() {
 	}
 }
 
-func ListenForWs(conn *websocket.Conn) {
-	var payload *WsPayload
+func ListenForWs(conn *WebSocketConnection) {
+	defer func() {
+		if r := recover(); r != nil {
+			log.Println("Error", fmt.Sprintf("%v", r))
+		}
+	}()
+
+	var payload WsPayload
 
 	for {
 		err := conn.ReadJSON(&payload)
@@ -127,7 +136,8 @@ func (hs *Handlers) SaveHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		code := http.StatusMethodNotAllowed
 		http.Error(w, http.StatusText(code), code)
-		return
+		log.Println("returnを消してみた。")
+		//return
 	}
 
 	category := r.FormValue("category")
