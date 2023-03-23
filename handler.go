@@ -51,6 +51,20 @@ func (hs *Handlers) ListenToWsChannel() {
 		switch e.Action {
 		case "delete":
 			hs.ab.DeleteItem(e.ID)
+
+			// 最新の10件を取得する
+			items, err := hs.ab.GetItems(10)
+			if err != nil {
+				log.Println(err)
+				return
+			}
+
+			response := WsJsonResponse{
+				Action: "delete",
+				Items:  items,
+			}
+
+			e.Conn.WriteJSON(response)
 		}
 	}
 }
@@ -69,6 +83,7 @@ func ListenForWs(conn *WebSocketConnection) {
 		if err != nil {
 			// do nothing
 		} else {
+			payload.Conn = *conn
 			wsChan <- payload
 		}
 	}
