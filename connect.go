@@ -17,4 +17,5 @@ type WebSocketConnection struct {
 type WsPayload struct {
 	Action string
 	ID     int
+	Conn   WebSocketConnection
 }
