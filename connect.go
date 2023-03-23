@@ -2,6 +2,11 @@ package main
 
 import "github.com/gorilla/websocket"
 
+// WebSocketsからブラウザへ送信するデータを格納
+type WsJsonResponse struct {
+	Items []*Item
+}
+
 // WebSocketsコネクション情報を格納
 type WebSocketConnection struct {
 	*websocket.Conn
