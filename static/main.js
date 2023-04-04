@@ -19,6 +19,11 @@
       console.log("Successfully connected!");
     });
 
+    // WebSocketからデータを受け取りDOMを更新する
+    socket.addEventListener('message', (msg) => {
+
+    });
+
     return socket;
   }
 
