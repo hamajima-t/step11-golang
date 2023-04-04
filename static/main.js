@@ -23,7 +23,7 @@
     socket.addEventListener('message', msg => {
       const data = JSON.parse(msg.data);
       const tbodies = document.getElementsByTagName('tbody');
-      const heading = document.getElementById('latest');
+      const heading = document.getElementById('latest10');
       updateTable(tbodies, data);
       updateHeading(heading,
         `最新${data.Items.length > 9 ? 10 : data.Items.length}件(<a href="/summary/")集計</a>)`
