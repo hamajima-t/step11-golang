@@ -26,7 +26,7 @@
       const heading = document.getElementById('latest10');
       updateTable(tbodies, data);
       updateHeading(heading,
-        `最新${data.Items.length > 9 ? 10 : data.Items.length}件(<a href="/summary/")集計</a>)`
+        `最新${data.Items.length > 9 ? 10 : data.Items.length}件(<a href="/summary/">集計</a>)`
       );
     });
 
