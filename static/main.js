@@ -20,8 +20,14 @@
     });
 
     // WebSocketからデータを受け取りDOMを更新する
-    socket.addEventListener('message', (msg) => {
-
+    socket.addEventListener('message', msg => {
+      const data = JSON.parse(msg.data);
+      const tbodies = document.getElementsByTagName('tbody');
+      const heading = document.getElementById('latest');
+      updateTable(tbodies, data);
+      updateHeading(heading,
+        `最新${data.Items.length > 9 ? 10 : data.Items.length}件(<a href="/summary/")集計</a>)`
+      );
     });
 
     return socket;
@@ -36,6 +42,38 @@
     };
     socket.send(JSON.stringify(jsonData));
     row.style.display = 'none';
+  }
+
+  function updateTable(tbodies, data) {
+    while (tbodies[0].firstChild) {
+      tbodies[0].removeChild(tbodies[0].firstChild);
+    }
+
+    if (data.Items.length > 0) {
+      Object.keys(data.Items).forEach(function(key) {
+        const tr = document.createElement('tr');
+        tr.dataset.id = data.Items[key].ID;
+        const item = {
+          category: data.Items[key].Category,
+          price: data.Items[key].Price,
+          delete: "x"
+        };
+
+        Object.keys(item).forEach(function(key) {
+          const td = document.createElement('td');
+          const textNode = document.createTextNode(item[key]);
+          if (item[key] === "x") { td.setAttribute("class", "delete_item"); }
+          td.appendChild(textNode);
+          tr.appendChild(td);
+        });
+
+        tbodies[0].appendChild(tr);
+      });
+    }
+  }
+
+  function updateHeading(heading, text) {
+    heading.innerHTML = text;
   }
 
 })();
