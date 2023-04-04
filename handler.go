@@ -108,7 +108,7 @@ var listTmpl = template.Must(template.New("list").Parse(`<!DOCTYPE html>
 			<input type="submit" value="保存">
 		</form>
 
-		<h2>最新{{len .}}件(<a href="/summary">集計</a>)</h2>
+		<h2 id="latest10">最新{{len .}}件(<a href="/summary">集計</a>)</h2>
 		{{- if . -}}
 		<table id="items" border="1">
 			<tr><th>品目</th><th>値段</th><th>削除</th></tr>
