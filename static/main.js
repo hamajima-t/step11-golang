@@ -22,12 +22,17 @@
     // WebSocketからデータを受け取りDOMを更新する
     socket.addEventListener('message', msg => {
       const data = JSON.parse(msg.data);
-      const tbodies = document.getElementsByTagName('tbody');
-      const heading = document.getElementById('latest10');
-      updateTable(tbodies, data);
-      updateHeading(heading,
-        `最新${data.Items.length}件(<a href="/summary">集計</a>)`
-      );
+      switch (data.Action) {
+        case "delete":
+          const tbodies = document.getElementsByTagName('tbody');
+          const heading = document.getElementById('latest10');
+          updateTable(tbodies, data);
+          updateHeading(heading,
+            `最新${data.Items.length}件(<a href="/summary">集計</a>)`
+          );    
+            
+          break;
+      }
     });
 
     return socket;
